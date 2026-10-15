@@ -95,3 +95,14 @@ $("clearData").addEventListener("click",()=>{if(confirm("全トレードと設�
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 let timer;function toast(s){$("toast").textContent=s;$("toast").classList.add("show");clearTimeout(timer);timer=setTimeout(()=>$("toast").classList.remove("show"),1800)}
 resetForm();renderDashboard();
+
+// 同期版（claude.ai）へ移すためのCSV書き出し。同期版の「CSVを読み込む」と同じ列名にする
+const EXPORT_COLS=["record_type","start_asset","id","date","symbol","side","entry","sl","entry_reason","exit_plan","exit","pnl","pnl_rate","hold_time","emotion","image"];
+$("exportCsv").addEventListener("click",()=>{
+  const cell=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const rows=[{record_type:"setting",start_asset:settings.startAsset},...trades.map(t=>({record_type:"trade",id:t.id,date:t.date,symbol:t.symbol,side:t.side,entry:t.entry,sl:t.sl,entry_reason:t.entryReason,exit_plan:t.exitPlan,exit:t.exit,pnl:t.pnl,pnl_rate:t.pnlRate,hold_time:t.holdTime,emotion:t.emotion,image:t.image}))];
+  const csv="﻿"+[EXPORT_COLS,...rows.map(r=>EXPORT_COLS.map(c=>r[c]??""))].map(r=>r.map(cell).join(",")).join("\r\n");
+  const d=new Date(),day=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download=`crypto-journal-${day}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast(`${trades.length}件を書き出しました`);
+});

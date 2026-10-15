@@ -21,6 +21,7 @@
 </header>
 
 <main>
+<div class="move-banner"><b>スマホとPCで同期できる版ができました。</b> これからは <a href="https://claude.ai/artifact/XVru8EMM6bDWAx3iLjEdj2" target="_blank" rel="noopener">暗号資産タートル ジャーナル（同期版）</a> を使ってください。今までの記録は「設定」→「CSVを書き出す」で保存し、同期版の設定画面で読み込めば移せます。</div>
 <section id="dashboard" class="page active">
   <div class="page-head"><div><h1>ダッシュボード</h1><p id="monthLabel"></p></div><button class="primary" data-page="new">＋ トレードを記録</button></div>
   <div class="cards">
@@ -86,6 +87,7 @@
     <button class="primary" type="submit">設定を保存</button>
     <p class="hint">現在の資産 = 開始資産 ＋ 保存した全トレードの損益。</p>
   </form>
+  <div class="panel danger"><h2>同期版へ移す</h2><p>今までの記録（画像を含む）をCSVで書き出します。同期版の「設定」→「CSVを読み込む」で読み込んでください。</p><button id="exportCsv" class="primary" style="margin-top:12px">CSVを書き出す</button></div>
   <div class="panel danger"><h2>データ管理</h2><p>ブラウザのローカルストレージに保存されています。端末・ブラウザを変えると自動同期されません。</p><button id="clearData" class="dangerbtn">全データを削除</button></div>
 </section>
 </main>
